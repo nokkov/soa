@@ -14,7 +14,7 @@ import ru.itmo.model.Person;
 public class PersonResources {
 
     @POST
-    @Consumes("application/xml")
+    @Consumes("application/json")
     public Response addPerson(Person person) {
         return Response.status(Response.Status.CREATED).entity(person).build();
     }
