@@ -3,6 +3,11 @@ package ru.itmo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import ru.itmo.model.Color;
 import ru.itmo.model.Coordinates;
 import ru.itmo.model.Location;
@@ -78,5 +83,38 @@ public class AppTest {
         assertEquals(person.getLocation().getY(), retrievedPerson.getLocation().getY());
         assertEquals(person.getLocation().getZ(), retrievedPerson.getLocation().getZ());
         assertEquals(person.getLocation().getName(), retrievedPerson.getLocation().getName());
+    }
+
+    @Test
+    public void testAddPerson() {
+        Client client = ClientBuilder.newClient();
+
+        Person person = new Person();
+        person.setName("John Doe");
+        person.setHeight(180.5f);
+        person.setBirthday(new Date());
+        person.setWeight(75.0f);
+        person.setHairColor(Color.GREEN);
+        
+        Coordinates coordinates = new Coordinates();
+        coordinates.setX(40.7128);
+        coordinates.setY(100);
+        
+        Location location = new Location();
+        location.setX(100.0);
+        location.setY(200);
+        location.setZ(300);
+        location.setName("Empire State Building");
+        
+        person.setCoordinates(coordinates);
+        person.setLocation(location);
+
+        // Send POST request to add person
+        Response response = client.target("http://localhost:8080/soa-1.0-SNAPSHOT/api")
+                                  .path("/persons")
+                                  .request(MediaType.APPLICATION_JSON)
+                                  .post(Entity.entity(person, MediaType.APPLICATION_JSON));
+
+        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
     }
 }

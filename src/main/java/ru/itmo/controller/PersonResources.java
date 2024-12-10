@@ -1,5 +1,7 @@
 package ru.itmo.controller;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -12,11 +14,15 @@ import ru.itmo.model.Person;
 
 @Path("/persons")
 public class PersonResources {
+
+    @PersistenceContext(name = "testPU")
+    private EntityManager em;
     
     @POST
     @Consumes("application/json")
     public Response addPerson(Person person) {
-        return Response.status(Response.Status.CREATED).entity(person).build();
+        em.persist(person);
+        return Response.ok().build();
     }
 
     @GET
