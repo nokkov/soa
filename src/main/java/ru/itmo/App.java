@@ -1,10 +1,9 @@
 package ru.itmo;
 
-/**
- * Hello world!
- */
-public class App {
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Application;
+
+@Path("/api")
+public class App extends Application {
+    
 }
