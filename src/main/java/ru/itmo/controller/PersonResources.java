@@ -12,7 +12,7 @@ import ru.itmo.model.Person;
 
 @Path("/persons")
 public class PersonResources {
-
+    
     @POST
     @Consumes("application/json")
     public Response addPerson(Person person) {
@@ -28,7 +28,6 @@ public class PersonResources {
 
     @PATCH
     @Path("/{id}")
-    @Consumes("application/xml")
     public Response updatePerson(@PathParam("id") Long id, Person person) {
         return Response.ok(person).build();
     }
