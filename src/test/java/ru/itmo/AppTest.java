@@ -1,19 +1,34 @@
 package ru.itmo;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest {
+import static org.junit.jupiter.api.Assertions.*;
 
-    /**
-     * Rigorous Test :-)
-     */
+public class AppTest {
+    private static EntityManagerFactory emf;
+    private static EntityManager em;
+
+    @BeforeAll
+    public static void setUp() {
+        emf = Persistence.createEntityManagerFactory("testPU");
+        em = emf.createEntityManager();
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        em.close();
+        emf.close();
+    }
+
     @Test
-    public void shouldAnswerWithTrue() {
-        assertTrue(true);
+    public void testConnection() {
+        assertNotNull(em);
+        assertTrue(em.isOpen());
     }
 }
