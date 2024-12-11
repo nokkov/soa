@@ -9,13 +9,14 @@ import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
 import ru.itmo.model.Person;
 
 @Path("/persons")
 public class PersonResources {
 
-    @PersistenceContext(name = "testPU")
+    @PersistenceContext(unitName = "testPU")
     private EntityManager em;
     
     @POST
@@ -27,8 +28,12 @@ public class PersonResources {
 
     @GET
     @Path("/{id}")
+    @Produces("application/json")
     public Response getPerson(@PathParam("id") Long id) {
-        Person person = new Person();
+        Person person = em.find(Person.class, id);
+        if (person == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
         return Response.ok(person).build();
     }
 
