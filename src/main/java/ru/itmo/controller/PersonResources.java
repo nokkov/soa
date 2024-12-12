@@ -71,4 +71,16 @@ public class PersonResources {
         em.remove(person);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
+
+    @GET
+    @Path("/count-by-location")
+    @Produces("application/json")
+    public Response countByLocation(@QueryParam("threshold") Double threshold) {
+        Long count = em.createQuery(
+                "SELECT COUNT(p) FROM Person p WHERE p.location.x * p.location.y * p.location.z > :threshold", Long.class)
+                .setParameter("threshold", threshold)
+                .getSingleResult();
+
+        return Response.ok(count).build();
+    }
 }
