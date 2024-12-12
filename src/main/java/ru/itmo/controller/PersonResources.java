@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 import ru.itmo.model.Person;
 
@@ -39,13 +38,37 @@ public class PersonResources {
 
     @PATCH
     @Path("/{id}")
-    public Response updatePerson(@PathParam("id") Long id, Person person) {
-        return Response.ok(person).build();
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response updatePerson(@PathParam("id") Long id, Person updatedPerson) {
+        Person existingPerson = em.find(Person.class, id);
+        if (existingPerson == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        existingPerson.setName(updatedPerson.getName());
+        existingPerson.setCoordinates(updatedPerson.getCoordinates());
+        existingPerson.setHeight(updatedPerson.getHeight());
+        existingPerson.setBirthday(updatedPerson.getBirthday());
+        existingPerson.setWeight(updatedPerson.getWeight());
+        existingPerson.setHairColor(updatedPerson.getHairColor());
+        existingPerson.setLocation(updatedPerson.getLocation());
+
+        em.merge(existingPerson);
+
+        return Response.ok(existingPerson).build();
     }
 
     @DELETE
     @Path("/{id}")
+    @Produces("application/json")
     public Response deletePerson(@PathParam("id") Long id) {
+        Person person = em.find(Person.class, id);
+        if (person == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        em.remove(person);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

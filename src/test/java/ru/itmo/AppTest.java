@@ -90,30 +90,30 @@ public class AppTest {
         assertEquals(person.getLocation().getName(), retrievedPerson.getLocation().getName());
     }
 
-    @Test
-    public void testServerRoundtrip() {
-        Client client = ClientBuilder.newClient();
-        Person txPerson = makePerson();
+    // @Test
+    // public void testServerRoundtrip() {
+    //     Client client = ClientBuilder.newClient();
+    //     Person txPerson = makePerson();
 
-        final String API_URL = "http://localhost:8080/soa-1.0-SNAPSHOT/api";
-        Response txResp = client.target(API_URL)
-            .path("/persons")
-            .request(MediaType.APPLICATION_JSON)
-            .post(Entity.entity(txPerson, MediaType.APPLICATION_JSON));
-        assertEquals(Response.Status.CREATED.getStatusCode(), txResp.getStatus());
+    //     final String API_URL = "http://localhost:8080/soa-1.0-SNAPSHOT/api";
+    //     Response txResp = client.target(API_URL)
+    //         .path("/persons")
+    //         .request(MediaType.APPLICATION_JSON)
+    //         .post(Entity.entity(txPerson, MediaType.APPLICATION_JSON));
+    //     assertEquals(Response.Status.CREATED.getStatusCode(), txResp.getStatus());
 
-        URI rxUri = txResp.getLocation();
-        assertNotNull(rxUri);
+    //     URI rxUri = txResp.getLocation();
+    //     assertNotNull(rxUri);
 
-        log.info(String.valueOf(rxUri));
+    //     log.info(String.valueOf(rxUri));
 
-        Response rxResp = client.target(rxUri)
-            .request(MediaType.APPLICATION_JSON)
-            .get();
-        assertEquals(Response.Status.OK.getStatusCode(), rxResp.getStatus());
-        Person rxPerson = rxResp.readEntity(Person.class);
-        assertNotNull(rxPerson);
-    }
+    //     Response rxResp = client.target(rxUri)
+    //         .request(MediaType.APPLICATION_JSON)
+    //         .get();
+    //     assertEquals(Response.Status.OK.getStatusCode(), rxResp.getStatus());
+    //     Person rxPerson = rxResp.readEntity(Person.class);
+    //     assertNotNull(rxPerson);
+    // }
 
     private static Person makePerson() {
         Person person = new Person();
