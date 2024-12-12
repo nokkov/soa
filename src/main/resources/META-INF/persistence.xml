@@ -5,10 +5,14 @@
              version="3.0">
     <persistence-unit name="testPU">
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="jakarta.persistence.jdbc.driverClassName" value="org.h2.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=KEY,VALUE"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:test;DATABASE_TO_UPPER=false"/>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

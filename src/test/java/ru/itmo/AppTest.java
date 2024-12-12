@@ -18,6 +18,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
@@ -39,9 +40,9 @@ public class AppTest {
     }
 
     private boolean tableExists(String tableName) {
-        String sql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = :tableName";
+        String sql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = :t";
         Query query = em.createNativeQuery(sql);
-        query.setParameter("tableName", tableName.toUpperCase());
+        query.setParameter("t", tableName);
         Number count = (Number) query.getSingleResult();
         return count.intValue() > 0;
     }
@@ -70,17 +71,17 @@ public class AppTest {
         person.setBirthday(new Date());
         person.setWeight(75.0f);
         person.setHairColor(Color.GREEN);
-        
+
         Coordinates coordinates = new Coordinates();
         coordinates.setX(40.7128);
         coordinates.setY(100);
-        
+
         Location location = new Location();
         location.setX(100.0);
         location.setY(200);
         location.setZ(300);
         location.setName("Empire State Building");
-        
+
         person.setCoordinates(coordinates);
         person.setLocation(location);
 
@@ -104,63 +105,63 @@ public class AppTest {
         assertEquals(person.getLocation().getName(), retrievedPerson.getLocation().getName());
     }
 
-    // @Test
-    // @Order(4)
-    // public void testAddPerson() {
-    //     Client client = ClientBuilder.newClient();
+    @Test
+    @Order(4)
+    public void testAddPerson() {
+        Client client = ClientBuilder.newClient();
 
-    //     Person person = new Person();
-    //     person.setName("John Doe");
-    //     person.setHeight(180.5f);
-    //     person.setBirthday(new Date());
-    //     person.setWeight(75.0f);
-    //     person.setHairColor(Color.GREEN);
-        
-    //     Coordinates coordinates = new Coordinates();
-    //     coordinates.setX(40.7128);
-    //     coordinates.setY(100);
-        
-    //     Location location = new Location();
-    //     location.setX(100.0);
-    //     location.setY(200);
-    //     location.setZ(300);
-    //     location.setName("Empire State Building");
-        
-    //     person.setCoordinates(coordinates);
-    //     person.setLocation(location);
+        Person person = new Person();
+        person.setName("John Doe");
+        person.setHeight(180.5f);
+        person.setBirthday(new Date());
+        person.setWeight(75.0f);
+        person.setHairColor(Color.GREEN);
 
-    //     // Send POST request to add person
-    //     Response response = client.target("http://localhost:8080/soa-1.0-SNAPSHOT/api")
-    //                               .path("/persons")
-    //                               .request(MediaType.APPLICATION_JSON)
-    //                               .post(Entity.entity(person, MediaType.APPLICATION_JSON));
+        Coordinates coordinates = new Coordinates();
+        coordinates.setX(40.7128);
+        coordinates.setY(100);
 
-    //     assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());        
-    // }
+        Location location = new Location();
+        location.setX(100.0);
+        location.setY(200);
+        location.setZ(300);
+        location.setName("Empire State Building");
 
-    // @Test
-    // @Order(5)
-    // public void testGetPerson() {
-    //     Client client = ClientBuilder.newClient();
+        person.setCoordinates(coordinates);
+        person.setLocation(location);
 
-    //     Response response = client.target("http://localhost:8080/soa-1.0-SNAPSHOT/api")
-    //                               .path("/persons/" + 1)
-    //                               .request(MediaType.APPLICATION_JSON)
-    //                               .get();
+        // Send POST request to add person
+        Response response = client.target("http://localhost:8080/soa-1.0-SNAPSHOT/api")
+            .path("/persons")
+            .request(MediaType.APPLICATION_JSON)
+            .post(Entity.entity(person, MediaType.APPLICATION_JSON));
 
-    //     assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+    }
 
-    //     Person retrievedPerson = response.readEntity(Person.class);
-    //     assertNotNull(retrievedPerson);
-    //     // assertEquals("John Doe", retrievedPerson.getName());
-    //     assertEquals(180.5f, retrievedPerson.getHeight());
-    //     assertEquals(75.0f, retrievedPerson.getWeight());
-    //     assertEquals(Color.GREEN, retrievedPerson.getHairColor());
-    //     assertEquals(40.7128, retrievedPerson.getCoordinates().getX());
-    //     assertEquals(100, retrievedPerson.getCoordinates().getY());
-    //     assertEquals(100.0, retrievedPerson.getLocation().getX());
-    //     assertEquals(200, retrievedPerson.getLocation().getY());
-    //     assertEquals(300, retrievedPerson.getLocation().getZ());
-    //     assertEquals("Empire State Building", retrievedPerson.getLocation().getName());
-    // }
+    @Test
+    @Order(5)
+    public void testGetPerson() {
+        Client client = ClientBuilder.newClient();
+
+        Response response = client.target("http://localhost:8080/soa-1.0-SNAPSHOT/api")
+            .path("/persons/" + 1)
+            .request(MediaType.APPLICATION_JSON)
+            .get();
+
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+
+        Person retrievedPerson = response.readEntity(Person.class);
+        assertNotNull(retrievedPerson);
+        // assertEquals("John Doe", retrievedPerson.getName());
+        assertEquals(180.5f, retrievedPerson.getHeight());
+        assertEquals(75.0f, retrievedPerson.getWeight());
+        assertEquals(Color.GREEN, retrievedPerson.getHairColor());
+        assertEquals(40.7128, retrievedPerson.getCoordinates().getX());
+        assertEquals(100, retrievedPerson.getCoordinates().getY());
+        assertEquals(100.0, retrievedPerson.getLocation().getX());
+        assertEquals(200, retrievedPerson.getLocation().getY());
+        assertEquals(300, retrievedPerson.getLocation().getZ());
+        assertEquals("Empire State Building", retrievedPerson.getLocation().getName());
+    }
 }

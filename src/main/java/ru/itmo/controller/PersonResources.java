@@ -2,6 +2,7 @@ package ru.itmo.controller;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -14,11 +15,11 @@ import jakarta.ws.rs.core.Response;
 import ru.itmo.model.Person;
 
 @Path("/persons")
+@Transactional
 public class PersonResources {
-
     @PersistenceContext(unitName = "testPU")
     private EntityManager em;
-    
+
     @POST
     @Consumes("application/json")
     public Response addPerson(Person person) {

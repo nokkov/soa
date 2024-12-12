@@ -6,7 +6,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 @Entity
 @Table(name = "coordinates")
 public class Coordinates {
