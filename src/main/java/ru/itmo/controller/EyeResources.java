@@ -13,7 +13,6 @@ import jakarta.ws.rs.core.Response;
 @Path("/eye-color")
 @Transactional
 public class EyeResources {
-    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEyeColors() {

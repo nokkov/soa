@@ -130,7 +130,7 @@ public class PersonResources {
             if (filterSpec.isEmpty()) {
                 continue;
             }
-            String[] split = filterSpec.split(" ");
+            String[] split = filterSpec.split("[ +]");
             if (split.length != 3) {
                 throw new BadRequestException("Bad filter spec", "filter");
             }
@@ -163,11 +163,12 @@ public class PersonResources {
             .setFirstResult(from)
             .setMaxResults(upto - from);
         List<Person> resultList = query.getResultList();
+        long total = (Long) em.createQuery("SELECT COUNT(id) FROM Person ").getSingleResult();
 
         OkPayload response = new OkPayload();
         response.setFrom(from);
         response.setUpto(upto);
-        response.setTotal(-1);
+        response.setTotal(total);
         response.setPersons(resultList);
         return Response.ok(response).build();
     }

@@ -16,13 +16,13 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OkPayload {
     @XmlElement(name = "from")
-    int from;
+    long from;
 
     @XmlElement(name = "upto")
-    int upto;
+    long upto;
 
     @XmlElement(name = "total")
-    int total;
+    long total;
 
     @XmlElement(name = "persons")
     List<Person> persons;

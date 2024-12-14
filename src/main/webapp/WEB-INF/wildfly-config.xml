@@ -1,0 +1,14 @@
+<configuration>
+    <subsystem xmlns="urn:jboss:domain:undertow:14.0" default-virtual-host="default-host"
+               default-servlet-container="default" default-server="default-server"
+               statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}"
+               default-security-domain="other">
+        <server name="default-server">
+            <https-listener name="default" socket-binding="https" ssl-context="applicationSSC" enable-http2="true"/>
+            <host name="default-host" alias="localhost">
+                <location name="/" handler="welcome-content"/>
+                <http-invoker http-authentication-factory="application-http-authentication"/>
+            </host>
+        </server>
+    </subsystem>
+</configuration>
