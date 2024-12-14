@@ -1,8 +1,8 @@
-package ru.itmo;
+package ru.itmo.config;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
 @ApplicationPath("/api")
-public class App extends Application {
+public class SoaApplication extends Application {
 }

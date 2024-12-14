@@ -4,11 +4,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
@@ -18,17 +13,16 @@ import ru.itmo.model.Coordinates;
 import ru.itmo.model.Location;
 import ru.itmo.model.Person;
 
-import java.net.URI;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AppTest {
+public class SoaApplicationTest {
     private static EntityManagerFactory emf;
     private static EntityManager em;
 
-    private final Logger log = Logger.getLogger(AppTest.class.getName());
+    private final Logger log = Logger.getLogger(SoaApplicationTest.class.getName());
 
     @BeforeAll
     public static void setUp() {
