@@ -110,6 +110,9 @@ public class PersonResources {
         try {
             List<Order> orders = new ArrayList<>();
             for (String sortSpec : sortBy) {
+                if (sortSpec.isEmpty()) {
+                    continue;
+                }
                 if (sortSpec.startsWith("-")) {
                     orders.add(cb.desc(root.get(sortSpec.substring(1))));
                 } else {
@@ -124,6 +127,9 @@ public class PersonResources {
         }
 
         for (String filterSpec : filters) {
+            if (filterSpec.isEmpty()) {
+                continue;
+            }
             String[] split = filterSpec.split(" ");
             if (split.length != 3) {
                 throw new BadRequestException("Bad filter spec", "filter");
