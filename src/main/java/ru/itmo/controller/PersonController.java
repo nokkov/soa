@@ -8,6 +8,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -24,11 +25,11 @@ import java.util.logging.Logger;
 
 @Path("/persons")
 @Transactional
-public class PersonResources {
+public class PersonController {
     @PersistenceContext(unitName = "testPU")
     private EntityManager em;
 
-    private final Logger log = Logger.getLogger(PersonResources.class.getName());
+    private final Logger log = Logger.getLogger(PersonController.class.getName());
 
     //private static final String MEDIA_TYPE = MediaType.APPLICATION_JSON;
     private static final String MEDIA_TYPE = MediaType.APPLICATION_XML;
@@ -36,7 +37,7 @@ public class PersonResources {
     @POST
     @Consumes(MEDIA_TYPE)
     @Produces(MEDIA_TYPE)
-    public Response add(Person person, @Context UriInfo uriContext) {
+    public Response add(@Valid Person person, @Context UriInfo uriContext) {
         em.persist(person);
         URI uri = uriContext.getAbsolutePathBuilder().path("{id}").build(person.getId());
         return Response.created(uri).build();
@@ -48,7 +49,7 @@ public class PersonResources {
     public Response getPerson(@PathParam("id") Long id) {
         Person person = em.find(Person.class, id);
         if (person == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
         return Response.ok(person).build();
     }
@@ -64,11 +65,11 @@ public class PersonResources {
         }
 
         existingPerson.setName(updatedPerson.getName());
-        existingPerson.setCoordinates(updatedPerson.getCoordinates());
+        //existingPerson.setCoordinates(updatedPerson.getCoordinates());
         existingPerson.setHeight(updatedPerson.getHeight());
         existingPerson.setBirthday(updatedPerson.getBirthday());
         existingPerson.setWeight(updatedPerson.getWeight());
-        existingPerson.setHairColor(updatedPerson.getHairColor());
+        existingPerson.setEyeColor(updatedPerson.getEyeColor());
         existingPerson.setLocation(updatedPerson.getLocation());
 
         em.merge(existingPerson);
@@ -84,7 +85,6 @@ public class PersonResources {
         if (person == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
         em.remove(person);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
@@ -174,10 +174,6 @@ public class PersonResources {
         result.setUpto(upto);
         result.setTotal(total);
         result.setPersons(persons);
-        // result.from = from;
-        // result.upto = upto;
-        // result.total = total;
-        // result.persons = persons;
         return Response.ok(result).build();
     }
 }

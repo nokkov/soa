@@ -1,13 +1,10 @@
 package ru.itmo.response;
 
+import jakarta.xml.bind.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 import ru.itmo.model.Person;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @Getter
@@ -24,7 +21,8 @@ public class PersonListPayload {
     @XmlElement(name = "total")
     long total = 0;
 
-    @XmlElement(name = "persons")
+    @XmlElementWrapper(name="persons")
+    @XmlElement(name = "person")
     List<Person> persons = null;
 
     public PersonListPayload() {}

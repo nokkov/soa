@@ -1,11 +1,9 @@
 package ru.itmo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,18 +16,23 @@ import lombok.Setter;
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @XmlTransient
     private Long id;
 
     @XmlElement
+    @NotNull
     private Double x; // Поле не может быть null
 
     @XmlElement
+    @NotNull
     private Integer y; // Поле не может быть null
 
     @XmlElement
+    @NotNull
     private Integer z; // Поле не может быть null
 
     @Size(max = 255)
     @XmlElement
+    @NotNull
     private String name; // Строка не может быть пустой, Поле не может быть null
 }
