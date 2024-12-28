@@ -27,7 +27,7 @@ public class CatchAllExceptionMapper implements ExceptionMapper<Exception> {
             return Response.status(w.getResponse().getStatus()).entity(new ErrorPayload(w.getMessage())).build();
         }
         if (e instanceof BadRequestException b) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(new BadParamsPayload(e.getMessage(), List.of(b.getParam()))).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(new BadParamsPayload(b.getMessage(), List.of(b.getParam()))).build();
         }
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ErrorPayload(e.getMessage())).build();
     }

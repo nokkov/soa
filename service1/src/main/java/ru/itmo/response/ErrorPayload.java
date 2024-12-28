@@ -7,7 +7,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @Getter
 @XmlRootElement(name = "error")
