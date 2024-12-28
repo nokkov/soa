@@ -9,6 +9,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ru.itmo.model.Color;
 
 @Path("/eye-color")
 @Transactional
@@ -16,7 +17,10 @@ public class EyeController {
     @GET
     @Produces(MediaType.APPLICATION_XML)
     public Response getEyeColors() {
-        List<String> colors = Arrays.asList("RED", "GREEN", "BROWN", "WHITE");
-        return Response.ok(colors).build();
+        StringBuilder result = new StringBuilder("<colors>");
+        for (Color color : Color.values()) {
+            result.append("<color>").append(color.name()).append("</color>");
+        }
+        return Response.ok(result.append("</colors>").toString()).build();
     }
 }
