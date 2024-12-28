@@ -4,6 +4,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import ru.itmo.config.DateFormatXmlAdapter;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -25,6 +26,6 @@ public class BadParamsPayload {
     public BadParamsPayload(String message, List<String> param) {
         this.message = message;
         this.param = param;
-        this.time = ZonedDateTime.now().toString();
+        this.time = ZonedDateTime.now().format(DateFormatXmlAdapter.FORMATTER);
     }
 }

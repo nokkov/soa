@@ -34,5 +34,6 @@ public class Location {
     @Size(max = 255)
     @XmlElement
     @NotNull
+    @Column(columnDefinition = "TEXT")
     private String name; // Строка не может быть пустой, Поле не может быть null
 }

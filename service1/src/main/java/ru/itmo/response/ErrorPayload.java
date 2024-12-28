@@ -5,6 +5,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
+import ru.itmo.config.DateFormatXmlAdapter;
 
 import java.time.ZonedDateTime;
 
@@ -19,7 +20,7 @@ public class ErrorPayload {
 
     public ErrorPayload(String message) {
         this.message = message;
-        this.time = ZonedDateTime.now().toString();
+        this.time = ZonedDateTime.now().format(DateFormatXmlAdapter.FORMATTER);
     }
 
     public ErrorPayload() {

@@ -6,9 +6,13 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
+import ru.itmo.config.DateFormatXmlAdapter;
+import ru.itmo.config.SoaApplication;
 
+import java.text.DateFormat;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.logging.Logger;
@@ -29,6 +33,7 @@ public class Person {
     @NotEmpty
     @XmlElement
     @NotNull
+    @Column(columnDefinition = "TEXT")
     String name; // Поле не может быть null, Строка не может быть пустой
 
 //    @OneToOne(cascade = CascadeType.ALL)
@@ -38,7 +43,8 @@ public class Person {
 //    Coordinates coordinates; // Поле не может быть null
 
     @XmlElement
-    ZonedDateTime creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    //@XmlJavaTypeAdapter(DateFormatXmlAdapter.class)
+    String creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
 
     @Min(0)
     @XmlElement
@@ -47,7 +53,8 @@ public class Person {
 
     @XmlElement
     @NotNull
-    Date birthday; // Поле не может быть null
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z")
+    String birthday; // Поле не может быть null
 
     @Min(0)
     @XmlElement
@@ -68,7 +75,7 @@ public class Person {
     @PrePersist
     protected void onCreate() {
         log.info("onCreate person");
-        creationDate = ZonedDateTime.now();
+        creationDate = ZonedDateTime.now().format(DateFormatXmlAdapter.FORMATTER);
     }
 
     public Person() {

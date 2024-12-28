@@ -17,11 +17,11 @@ import java.util.Iterator;
 import java.util.logging.Logger;
 
 @Path("/demography")
-public class DemographicsResource {
+public class DemographyController {
     //private static final String API_URL = "https://localhost:8443/soa-1.0-SNAPSHOT/api";
     private static final String API_URL = "http://localhost:8080/soa-1.0-SNAPSHOT/api";
 
-    private final Logger log = Logger.getLogger(DemographicsResource.class.getName());
+    private final Logger log = Logger.getLogger(DemographyController.class.getName());
 
     private Client client = null;
     private XmlMapper mapper = null;

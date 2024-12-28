@@ -19,12 +19,18 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_XML;
 @Consumes(APPLICATION_XML)
 public class PassthroughXmlReader implements MessageBodyReader<String> {
     @Override
-    public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return aClass == String.class;
+    public boolean isReadable(Class<?> cl, Type t, Annotation[] a, MediaType m) {
+        return cl == String.class;
     }
 
     @Override
-    public String readFrom(Class<String> aClass, Type type, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> multivaluedMap, InputStream inputStream) throws IOException, WebApplicationException {
-        return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+    public String readFrom(
+        Class<String> cl,
+        Type t, Annotation[] a,
+        MediaType m,
+        MultivaluedMap<String, String> map,
+        InputStream stream
+    ) throws IOException, WebApplicationException {
+        return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
     }
 }
