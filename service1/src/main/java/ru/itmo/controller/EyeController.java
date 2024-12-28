@@ -1,8 +1,5 @@
 package ru.itmo.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
