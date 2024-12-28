@@ -1,6 +1,13 @@
 package ru.itmo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,38 +18,54 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "persons")
+@XmlRootElement(name = "person")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id; // Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    @XmlElement
+    long id; // Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
 
-    private String name; // Поле не может быть null, Строка не может быть пустой
+    @Size(max = 255)
+    @NotEmpty
+    @XmlElement
+    String name; // Поле не может быть null, Строка не может быть пустой
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coordinates_id")
-    private Coordinates coordinates; // Поле не может быть null
+    @XmlElement
+    Coordinates coordinates; // Поле не может быть null
 
     @Column(updatable = false)
-    private ZonedDateTime creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    @XmlElement
+    ZonedDateTime creationDate; // Поле не может быть null, Значение этого поля должно генерироваться автоматически
 
-    private Float height; // Поле не может быть null, Значение поля должно быть больше 0
+    @Min(0)
+    @XmlElement
+    float height; // Поле не может быть null, Значение поля должно быть больше 0
 
-    private Date birthday; // Поле не может быть null
+    @XmlElement
+    Date birthday; // Поле не может быть null
 
-    private Float weight; // Поле может быть null, Значение поля должно быть больше 0
+    @Min(0)
+    @XmlElement
+    float weight; // Поле может быть null, Значение поля должно быть больше 0
 
     @Enumerated(EnumType.STRING)
-    private Color hairColor; // Поле не может быть null
+    @XmlElement
+    Color hairColor; // Поле не может быть null
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
-    private Location location; // Поле не может быть null
+    @XmlElement
+    Location location; // Поле не может быть null
 
     @PrePersist
     protected void onCreate() {
         creationDate = ZonedDateTime.now();
     }
 
-    // Getters and setters
+    public Person() {
+    }
 }
 

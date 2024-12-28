@@ -1,13 +1,14 @@
 package ru.itmo.exceptions;
 
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 import ru.itmo.response.BadRequestPayload;
 
 import java.util.List;
 
 @Provider
-public class ExceptionMapper implements jakarta.ws.rs.ext.ExceptionMapper<BadRequestException> {
+public class MyExceptionMapper implements ExceptionMapper<BadRequestException> {
     @Override
     public Response toResponse(BadRequestException e) {
         BadRequestPayload payload = new BadRequestPayload(e.getMessage(), List.of(e.getParam()));

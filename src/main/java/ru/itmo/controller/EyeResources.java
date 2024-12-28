@@ -14,7 +14,7 @@ import jakarta.ws.rs.core.Response;
 @Transactional
 public class EyeResources {
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_XML)
     public Response getEyeColors() {
         List<String> colors = Arrays.asList("RED", "GREEN", "BROWN", "WHITE");
         return Response.ok(colors).build();

@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import ru.itmo.exceptions.BadRequestException;
 import ru.itmo.model.Person;
-import ru.itmo.response.OkPayload;
+import ru.itmo.response.PersonListPayload;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -30,9 +30,13 @@ public class PersonResources {
 
     private final Logger log = Logger.getLogger(PersonResources.class.getName());
 
+    //private static final String MEDIA_TYPE = MediaType.APPLICATION_JSON;
+    private static final String MEDIA_TYPE = MediaType.APPLICATION_XML;
+
     @POST
-    @Consumes("application/json")
-    public Response addPerson(Person person, @Context UriInfo uriContext) {
+    @Consumes(MEDIA_TYPE)
+    @Produces(MEDIA_TYPE)
+    public Response add(Person person, @Context UriInfo uriContext) {
         em.persist(person);
         URI uri = uriContext.getAbsolutePathBuilder().path("{id}").build(person.getId());
         return Response.created(uri).build();
@@ -40,7 +44,7 @@ public class PersonResources {
 
     @GET
     @Path("/{id}")
-    @Produces("application/json")
+    @Produces(MEDIA_TYPE)
     public Response getPerson(@PathParam("id") Long id) {
         Person person = em.find(Person.class, id);
         if (person == null) {
@@ -51,8 +55,8 @@ public class PersonResources {
 
     @PATCH
     @Path("/{id}")
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes(MEDIA_TYPE)
+    @Produces(MEDIA_TYPE)
     public Response updatePerson(@PathParam("id") Long id, Person updatedPerson) {
         Person existingPerson = em.find(Person.class, id);
         if (existingPerson == null) {
@@ -74,7 +78,7 @@ public class PersonResources {
 
     @DELETE
     @Path("/{id}")
-    @Produces("application/json")
+    @Produces(MEDIA_TYPE)
     public Response deletePerson(@PathParam("id") Long id) {
         Person person = em.find(Person.class, id);
         if (person == null) {
@@ -87,7 +91,7 @@ public class PersonResources {
 
     @GET
     @Path("/count-by-location")
-    @Produces("application/json")
+    @Produces(MEDIA_TYPE)
     public Response countByLocation(@QueryParam("threshold") Double threshold) {
         Long count = em.createQuery(
                 "SELECT COUNT(p) FROM Person p WHERE p.location.x * p.location.y * p.location.z > :threshold", Long.class)
@@ -97,7 +101,7 @@ public class PersonResources {
     }
 
     @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @Produces(MEDIA_TYPE)
     @Transactional
     public Response getPersons(@QueryParam("sort") List<String> sortBy,
                                @QueryParam("filter") List<String> filters,
@@ -162,14 +166,18 @@ public class PersonResources {
         Query query = em.createQuery(cq)
             .setFirstResult(from)
             .setMaxResults(upto - from);
-        List<Person> resultList = query.getResultList();
+        List<Person> persons = query.getResultList();
         long total = (Long) em.createQuery("SELECT COUNT(id) FROM Person ").getSingleResult();
 
-        OkPayload response = new OkPayload();
-        response.setFrom(from);
-        response.setUpto(upto);
-        response.setTotal(total);
-        response.setPersons(resultList);
-        return Response.ok(response).build();
+        PersonListPayload result = new PersonListPayload();
+        result.setFrom(from);
+        result.setUpto(upto);
+        result.setTotal(total);
+        result.setPersons(persons);
+        // result.from = from;
+        // result.upto = upto;
+        // result.total = total;
+        // result.persons = persons;
+        return Response.ok(result).build();
     }
 }
