@@ -1,20 +1,19 @@
 package ru.itmo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
 import ru.itmo.config.DateFormatXmlAdapter;
-import ru.itmo.config.SoaApplication;
 
-import java.text.DateFormat;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.logging.Logger;
 
 @Getter
@@ -29,18 +28,11 @@ public class Person {
     @XmlElement
     long id; // Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
 
-    @Size(max = 255)
     @NotEmpty
     @XmlElement
     @NotNull
     @Column(columnDefinition = "TEXT")
     String name; // Поле не может быть null, Строка не может быть пустой
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "coordinates_id")
-//    @XmlElement
-//    @NotNull
-//    Coordinates coordinates; // Поле не может быть null
 
     @XmlElement
     //@XmlJavaTypeAdapter(DateFormatXmlAdapter.class)
@@ -53,7 +45,7 @@ public class Person {
 
     @XmlElement
     @NotNull
-    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z")
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}")
     String birthday; // Поле не может быть null
 
     @Min(0)
