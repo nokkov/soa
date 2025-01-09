@@ -1,4 +1,4 @@
-package ru.itmo.model;
+package ru.itmo.soa3.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package ru.itmo.model;
+package ru.itmo.soa3.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -11,7 +11,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
-import ru.itmo.config.DateFormatXmlAdapter;
+import ru.itmo.soa3.config.DateFormatXmlAdapter;
 
 import java.time.ZonedDateTime;
 import java.util.logging.Logger;
