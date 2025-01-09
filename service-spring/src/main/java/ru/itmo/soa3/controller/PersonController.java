@@ -9,7 +9,6 @@ import ru.itmo.soa3.exception.BadRequestException;
 import ru.itmo.soa3.model.Person;
 import ru.itmo.soa3.response.PersonListPayload;
 import ru.itmo.soa3.repository.PersonRepository;
-import jakarta.enterprise.inject.Produces;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.*;
