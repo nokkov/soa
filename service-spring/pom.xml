@@ -195,9 +195,10 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-consul-discovery</artifactId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
             <version>4.2.0</version>
         </dependency>
+
 
 	</dependencies>
 
